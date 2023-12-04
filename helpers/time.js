@@ -1,19 +1,27 @@
 const fs = require('fs')
+const { updateLastFetchTime, getLastFetchTimeFromStrapi } = require('./strapi')
 
 const FILE_PATH = 'lastFetchTime.txt'
 
-const getLastFetchTime = () => {
+const getLastFetchTime = async () => {
   try {
     const lastFetchTime = fs.readFileSync(FILE_PATH, 'utf-8')
-    return lastFetchTime.trim() || null
+    const time = await getLastFetchTimeFromStrapi()
+    return time.trim() || null
   } catch (error) {
     return null
   }
 }
 
-const setLastFetchTime = (time) => {
+const setLastFetchTime = async (time) => {
   const humanReadableTime = time.toLocaleString()
   fs.writeFileSync(FILE_PATH, humanReadableTime)
+  const res = await updateLastFetchTime(humanReadableTime)
+  if (res === 200) {
+    console.log('Last fetch time updated:', time.toLocaleString())
+  } else {
+    console.log('error updating last fetched time')
+  }
 }
 
 module.exports = {

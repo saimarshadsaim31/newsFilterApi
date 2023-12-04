@@ -1,6 +1,6 @@
 const headerOptions = {
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${process.env.STRAPI_AUTH_TOKEN_DEVELOPMENT}`,
+  Authorization: `Bearer ${process.env.STRAPI_AUTH_TOKEN}`,
 }
 
 const slugify = function (text) {
@@ -25,27 +25,62 @@ async function createPost(title, markup) {
   const categories = getRandomCategory()
   console.log('categories', categories)
   try {
+    const response = await fetch(`${process.env.STRAPI_API_ENDPOINT}/posts`, {
+      method: 'POST',
+      headers: headerOptions,
+      body: JSON.stringify({
+        data: {
+          title: title,
+          categories: categories,
+          content: markup,
+          slug: slugify(title),
+        },
+      }),
+    })
+    console.log(response.status)
+  } catch (error) {
+    console.log('error creating post on strapi', error)
+  }
+}
+
+async function getLastFetchTimeFromStrapi(time) {
+  try {
     const response = await fetch(
-      `${process.env.STRAPI_POST_ENDPOINT_DEVELOPMENT}`,
+      `${process.env.STRAPI_API_ENDPOINT}/last-news-fetch-time`,
       {
-        method: 'POST',
+        method: 'GET',
+        headers: headerOptions,
+      }
+    )
+    const result = await response.json()
+    return result.data.attributes.time
+  } catch (error) {
+    console.log('error updating last fetch time', error)
+  }
+}
+
+async function updateLastFetchTime(time) {
+  try {
+    const response = await fetch(
+      `${process.env.STRAPI_API_ENDPOINT}/last-news-fetch-time`,
+      {
+        method: 'PUT',
         headers: headerOptions,
         body: JSON.stringify({
           data: {
-            title: title,
-            categories: categories,
-            content: markup,
-            slug: slugify(title),
+            time,
           },
         }),
       }
     )
-    console.log(response.status)
+    return response.status
   } catch (error) {
-    console.log(error)
+    console.log('error updating last fetch time', error)
   }
 }
 
 module.exports = {
   createPost,
+  updateLastFetchTime,
+  getLastFetchTimeFromStrapi,
 }

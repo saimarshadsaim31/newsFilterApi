@@ -1,6 +1,7 @@
 const { SearchApi } = require('financial-news-api')
 const { scraper } = require('./scrapper')
 const { createPost } = require('./strapi')
+const { generateImgUrl } = require('./image')
 
 const searchApi = SearchApi(process.env.NEWS_API_KEY)
 
@@ -18,8 +19,9 @@ const fetchAndProcessNews = async (queryString, from) => {
       console.log('Processing news...')
       for (const article of articles) {
         console.log('Processing article with name: ', article.title)
-        const { title, sourceUrl } = article
+        const { title, sourceUrl, imageUrl, id } = article
         const scrappedContent = await scraper(sourceUrl)
+        const s3ImageUrl = await generateImgUrl(imageUrl, title, id)
         console.log('pushing article to strapi')
         // await createPost(title, JSON.stringify(scrappedContent))
         console.log('article processsing completed...')

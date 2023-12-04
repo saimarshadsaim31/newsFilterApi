@@ -7,13 +7,12 @@ const cronSchedule = '* * * * *'
 
 const fetchNewsJob = async () => {
   const currentTime = new Date()
-  const lastFetchTime = getLastFetchTime()
+  const lastFetchTime = await getLastFetchTime()
   const lastFetchTimeReadable = lastFetchTime
     ? new Date(lastFetchTime).toLocaleString()
     : 'N/A'
 
   console.log(`Last fetch time: ${lastFetchTimeReadable}`)
-
   if (!lastFetchTime) {
     console.log(
       'No last fetch time found. You are probably running this for the first time.'
@@ -26,7 +25,6 @@ const fetchNewsJob = async () => {
 
   console.log('Updating last fetch time...')
   setLastFetchTime(currentTime)
-  console.log('Last fetch time updated:', currentTime.toLocaleString())
 }
 
 // Run the function once at the beginning

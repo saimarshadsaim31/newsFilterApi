@@ -10,11 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.465.0",
+    "aws-sdk": "^2.1510.0",
     "axios": "^1.6.2",
     "cheerio": "1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "financial-news-api": "^1.0.0",
     "node-cron": "^3.0.3",
-    "openai": "^4.20.1"
+    "openai": "^4.20.1",
+    "sharp": "^0.33.0"
   }
 }
