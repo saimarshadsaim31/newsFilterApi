@@ -2,6 +2,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 
 const scraper = async (link) => {
+  console.log('scrapping news article ...')
   try {
     const response = await axios.get(link)
     const $ = cheerio.load(response.data)
@@ -40,7 +41,7 @@ const scraper = async (link) => {
       date: date,
       markup: sectionHtml,
     }
-    return data
+    return JSON.stringify(data.markup)
   } catch (error) {
     console.error(`Error fetching or processing page: ${error.message}`)
   }

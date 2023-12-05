@@ -14,16 +14,21 @@ const slugify = function (text) {
     .replace(/-+$/, '') // Trim - from end of text
 }
 
-const categories = ['business', 'life', 'music', 'tech']
+const layoutCategories = [
+  'Featured',
+  'Latest',
+  'Popular',
+  `Editor's Picks`,
+  'Top Stories',
+]
 
 function getRandomCategory() {
-  const randomIndex = Math.floor(Math.random() * categories.length)
-  const randomCategory = categories[randomIndex]
-  return `["${randomCategory}"]`
+  const randomIndex = Math.floor(Math.random() * layoutCategories.length)
+  const randomCategory = layoutCategories[randomIndex]
+  return randomCategory
 }
-async function createPost(title, markup) {
-  const categories = getRandomCategory()
-  console.log('categories', categories)
+async function createPost(title, markup, s3ImageUrl, publishedAt, categories) {
+  const layoutCategory = getRandomCategory()
   try {
     const response = await fetch(`${process.env.STRAPI_API_ENDPOINT}/posts`, {
       method: 'POST',
@@ -31,9 +36,12 @@ async function createPost(title, markup) {
       body: JSON.stringify({
         data: {
           title: title,
-          categories: categories,
-          content: markup,
           slug: slugify(title),
+          content: markup,
+          imgUrl: s3ImageUrl,
+          newsDate: publishedAt,
+          categories: categories,
+          layoutCategory: layoutCategory,
         },
       }),
     })
