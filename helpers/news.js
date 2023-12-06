@@ -10,7 +10,7 @@ const fetchAndProcessNews = async (queryString, from) => {
   const query = {
     queryString,
     from,
-    size: 1,
+    size: 5,
   }
   try {
     console.log('Fetching news...')
