@@ -19,29 +19,10 @@ const scraper = async (link) => {
       'article.news-release.inline-gallery-template section.release-body.container'
     ).html()
 
-    const title = $(
-      'article.news-release.inline-gallery-template header div.custom-container h1'
-    )
-      .contents()
-      .filter(function () {
-        return this.type === 'text'
-      })
-      .text()
-      .trim()
+    // Replace newline characters with spaces
+    const cleanHtml = sectionHtml.replace(/\n/g, ' ')
 
-    const date = $(
-      'article.news-release.inline-gallery-template header div.custom-container div p.mb-no'
-    )
-      .text()
-      .trim()
-
-    const data = {
-      url: link,
-      title: title,
-      date: date,
-      markup: sectionHtml,
-    }
-    return JSON.stringify(data.markup)
+    return cleanHtml
   } catch (error) {
     console.error(`Error fetching or processing page: ${error.message}`)
   }

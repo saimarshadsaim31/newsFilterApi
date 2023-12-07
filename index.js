@@ -3,8 +3,9 @@ const cron = require('node-cron')
 const { getLastFetchTime, setLastFetchTime } = require('./helpers/time')
 const { fetchAndProcessNews } = require('./helpers/news')
 
-// const cronSchedule = '* * * * *'
-const cronSchedule = '*/15 * * * *'
+// const cronSchedule = '* * * * *' // Every minute
+// const cronSchedule = '*/15 * * * *' // Every 15 minutes
+const cronSchedule = '0 * * * *' // Every hour
 
 const fetchNewsJob = async () => {
   const currentTime = new Date()
@@ -20,11 +21,11 @@ const fetchNewsJob = async () => {
     )
   }
 
-  const queryString = `(source.id:prNewswire) AND publishedAt:[${
-    lastFetchTime || 0
-  } TO ${currentTime.toISOString()}]`
-  // const queryString =
-  //   '(source.id:prNewswire) AND publishedAt:[2020-02-01 TO 2020-05-20]'
+  // const queryString = `(source.id:prNewswire) AND publishedAt:[${
+  //   lastFetchTime || 0
+  // } TO ${currentTime.toISOString()}]`
+  const queryString =
+    '(source.id:prNewswire) AND publishedAt:[2020-02-01 TO 2020-05-20]'
 
   await fetchAndProcessNews(queryString, 0)
 
