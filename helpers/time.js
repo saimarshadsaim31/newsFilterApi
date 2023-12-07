@@ -14,14 +14,21 @@ const getLastFetchTime = async () => {
 }
 
 const setLastFetchTime = async (time) => {
-  const humanReadableTime = time.toLocaleString()
-  fs.writeFileSync(FILE_PATH, humanReadableTime)
-  const res = await updateLastFetchTime(humanReadableTime)
+  // fs.writeFileSync(FILE_PATH, time)
+  const res = await updateLastFetchTime(time.toISOString())
   if (res === 200) {
     console.log('Last fetch time updated:', time.toLocaleString())
   } else {
     console.log('error updating last fetched time')
   }
+  // const humanReadableTime = time.toLocaleString()
+  // fs.writeFileSync(FILE_PATH, humanReadableTime)
+  // const res = await updateLastFetchTime(humanReadableTime)
+  // if (res === 200) {
+  //   console.log('Last fetch time updated:', time.toLocaleString())
+  // } else {
+  //   console.log('error updating last fetched time')
+  // }
 }
 
 module.exports = {

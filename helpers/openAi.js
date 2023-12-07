@@ -50,7 +50,7 @@ async function generateCategoryFromGpt(newsContent) {
   const prompt = `Categorize this news content that i am about to provide you in the form of markup into one of the following predefined categories: ${newsCategories}. Ensure that the output always provide a category and the output only contains the name of the category nothing else, no description just the category name. here is the news content: ${newsContent}`
   const response = await openai.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
     max_tokens: 1000,
     temperature: 1,
   })

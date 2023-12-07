@@ -19,12 +19,16 @@ const fetchNewsJob = async () => {
     )
   }
 
+  // const queryString = `(source.id:prNewswire) AND publishedAt:[${
+  //   lastFetchTime || 0
+  // } TO ${currentTime.toISOString()}]`
   const queryString =
     '(source.id:prNewswire) AND publishedAt:[2020-02-01 TO 2020-05-20]'
+
   await fetchAndProcessNews(queryString, 0)
 
   console.log('Updating last fetch time...')
-  setLastFetchTime(currentTime)
+  await setLastFetchTime(currentTime)
 }
 
 // Run the function once at the beginning
