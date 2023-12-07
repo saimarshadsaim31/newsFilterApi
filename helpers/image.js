@@ -5,10 +5,10 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3')
 
 // AWS S3 configuration
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
+  region: process.env.S3_AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.S3_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_AWS_SECRET_ACCESS_KEY,
   },
 })
 const slugify = function (text) {
@@ -43,7 +43,7 @@ async function processAndUploadImage(imageBuffer, fileName) {
   const processedImageBuffer = await sharp(imageBuffer).resize(500).toBuffer()
 
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET,
+    Bucket: process.env.S3_AWS_S3_BUCKET,
     Key: `images/${fileName}`,
     Body: processedImageBuffer,
     ContentType: 'image/*',
@@ -52,7 +52,7 @@ async function processAndUploadImage(imageBuffer, fileName) {
   try {
     const data = await s3Client.send(command)
     console.log('Image uploaded to S3:', data)
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.amazonaws.com/images/${fileName}`
+    const imageUrl = `https://${process.env.S3_AWS_S3_BUCKET}.s3.amazonaws.com/images/${fileName}`
     return imageUrl
   } catch (error) {
     throw new Error(`Error uploading file to S3: ${error.message}`)
