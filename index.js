@@ -5,7 +5,8 @@ const { fetchAndProcessNews } = require('./helpers/news')
 
 // const cronSchedule = '* * * * *' // Every minute
 // const cronSchedule = '*/15 * * * *' // Every 15 minutes
-const cronSchedule = '0 * * * *' // Every hour
+const cronSchedule = '*/30 * * * *' // Every 30 minutes
+// const cronSchedule = '0 * * * *' // Every hour
 
 const fetchNewsJob = async () => {
   const currentTime = new Date()
