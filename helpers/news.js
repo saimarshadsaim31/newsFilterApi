@@ -2,7 +2,7 @@ const { SearchApi } = require('financial-news-api')
 const { scraper } = require('./scrapper')
 const { createPost } = require('./strapi')
 const { generateImgUrl } = require('./image')
-const { generateCategoryFromGpt } = require('./openAi')
+const { generateCategoryFromGpt, askGpt, generateImg } = require('./openAi')
 
 const searchApi = SearchApi(process.env.NEWS_API_KEY)
 
@@ -10,23 +10,37 @@ const fetchAndProcessNews = async (queryString, from) => {
   const query = {
     queryString,
     from,
-    size: 10,
+    size: 1,
   }
   try {
     console.log('Fetching news...')
     const { articles } = await searchApi.getNews(query)
+    console.log('total articles fetched:', articles.length)
     console.log('Fetched news:', articles)
     if (articles && articles.length > 0) {
       console.log('Processing news...')
       for (const article of articles) {
         console.log('Processing article with name: ', article.title)
-        const { title, sourceUrl, imageUrl, id, description, publishedAt } =
-          article
+        const { title, sourceUrl, id, publishedAt } = article
         const markup = await scraper(sourceUrl)
-        const categories = await generateCategoryFromGpt(markup)
-        const s3ImageUrl = await generateImgUrl(imageUrl, title, id)
+        const data = await askGpt(markup)
+        const generatedImageUrl = await generateImg(data?.imageDescription)
+        const s3ImageUrl = await generateImgUrl(generatedImageUrl, title, id)
+
+        const newTitle = data?.title
+        const newMarkup = data?.content
+        const description = data?.abstract
+        const categories = data?.categories
+
         console.log('pushing article to strapi')
-        await createPost(title, markup, s3ImageUrl, publishedAt, categories)
+        await createPost(
+          newTitle,
+          description,
+          newMarkup,
+          s3ImageUrl,
+          publishedAt,
+          categories
+        )
         console.log('article processsing completed...')
       }
     } else {

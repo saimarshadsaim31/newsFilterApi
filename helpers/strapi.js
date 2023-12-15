@@ -27,7 +27,14 @@ function getRandomCategory() {
   const randomCategory = layoutCategories[randomIndex]
   return randomCategory
 }
-async function createPost(title, markup, s3ImageUrl, publishedAt, categories) {
+async function createPost(
+  title,
+  description,
+  markup,
+  s3ImageUrl,
+  publishedAt,
+  categories
+) {
   const layoutCategory = getRandomCategory()
   try {
     const response = await fetch(`${process.env.STRAPI_API_ENDPOINT}/posts`, {
@@ -36,6 +43,7 @@ async function createPost(title, markup, s3ImageUrl, publishedAt, categories) {
       body: JSON.stringify({
         data: {
           title: title,
+          description: description,
           slug: slugify(title),
           content: markup,
           imgUrl: s3ImageUrl,

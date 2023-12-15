@@ -61,6 +61,101 @@ async function generateCategoryFromGpt(newsContent) {
   }
 }
 
+const askGpt = async (originalNews) => {
+  console.log('asking GPT...')
+  const prompt = `Generate a nuanced variation of the following news content: '${originalNews}'. The variation should be authentic, reflecting the journalistic integrity of the original piece. However, ensure that the wording is distinct enough to prevent a one-to-one correlation with the original text, maintaining a balance between novelty and fidelity. Emphasize the importance of accuracy to prevent the dissemination of misinformation. Aim for a credible and trustworthy tone, aligning with the standards of responsible journalism. Keep in mind the significance of maintaining the original context while introducing subtle differences to create a fresh perspective. Optimize for clarity and coherence, prioritizing accuracy to uphold the reliability of the generated content. Thank you for your attention to detail in producing a variation that respects the authenticity of the news. This is the output format that i want  Output Format:
+  {
+    "title": "Generated Title",
+    "abstract": "Generated Description",
+    "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc. and should explain the news content in great detail so that the reader can get the full context of the news",
+    "categories": ["Generated Category"] // Generated Category should only be one and should be one of the following predefined categories: ${newsCategories},
+    "image": "Well defined and self explanatory Generated Image prompt for DALLE to generate an image to go along with the article"
+  }"
+ `
+
+  const response = await openai.chat.completions.create({
+    messages: [{ role: 'user', content: prompt }],
+    functions: [
+      {
+        name: 'print',
+        description: `Prints a news article in json format`,
+        parameters: {
+          type: 'object',
+          properties: {
+            title: {
+              type: 'string',
+              description: 'Title of the article',
+            },
+            abstract: {
+              type: 'string',
+              description: 'Brief description of the article',
+            },
+            content: {
+              type: 'string',
+              description: 'Text content of the article',
+            },
+            categories: {
+              type: 'object',
+              description: `Categorize this news content that i provided you in prompt in the form of markup into one of the following predefined categories: ${newsCategories}. Ensure that the output always provide a category and the output only contains the name of the category nothing else, no description just the category name like this ["generated category"].`,
+            },
+            imageDescription: {
+              type: 'string',
+              description:
+                'A text prompt to provide DALLE so it can generate a main image to go along with the article',
+            },
+          },
+        },
+      },
+    ],
+    model: 'gpt-4',
+    temperature: 1,
+  })
+  console.log('========= FULL RESPONSE =========')
+  console.log(response)
+  // console.log('========= CHOICES IN RESPONSE =========')
+  // console.log(response.choices)
+  try {
+    const argumentsString =
+      response.choices[0].message?.function_call?.arguments
+    if (argumentsString) {
+      const dataString = argumentsString
+        .replace(/\\n/g, '')
+        .replace(/\\r/g, '')
+        .replace(/\n/g, '')
+        .replace(/\r/g, '')
+      console.log('parsing data...')
+      const data = JSON.parse(dataString)
+      console.log('data parsed!', data)
+      console.log('token used:', response.usage.total_tokens)
+      return data
+    } else {
+      console.error('Failed to parse JSON', { response }, response.choices[0])
+      return new Error('Failed to parse JSON')
+    }
+  } catch (error) {
+    console.error('Failed to parse JSON', error)
+    return error
+  }
+}
+
+async function generateImg(imageDescription) {
+  console.log('generating image...')
+  const prompt = `Generate a visually compelling and authentic image reflecting the essence of the following news article description:"${imageDescription}. The image should be professional, contextually relevant, and adhere to high standards of realism to ensure accurate representation Consider elements that convey credibility and reliability, as the goal is to prevent misinformation. Please make sure the image aligns with the journalistic nature of the news provided and fosters a sense of trustworthiness. Ensure that the image is suitable for a news-related context, maintaining a balance between creativity and accuracy. Optimize for clarity and visual impact to enhance the audience's understanding of the news.Feel free to leverage the capabilities of the 'dall-e-3' model to produce a single image. Thank you for your attention to detail in creating a visually compelling representation of the provided news content. The generated image should not look animated or cartoonish it should look as realistic as possible.`
+  const response = await openai.images.generate({
+    model: 'dall-e-3',
+    prompt: prompt,
+    n: 1,
+    size: '1024x1024',
+    style: 'natural',
+  })
+  console.log('========= FULL RESPONSE =========')
+  console.log(response)
+  console.log('========= CHOICES IN RESPONSE =========')
+  console.log(response.data[0].url)
+  return response.data[0].url
+}
 module.exports = {
   generateCategoryFromGpt,
+  askGpt,
+  generateImg,
 }

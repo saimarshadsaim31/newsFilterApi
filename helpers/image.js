@@ -11,6 +11,7 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.S3_AWS_SECRET_ACCESS_KEY,
   },
 })
+
 const slugify = function (text) {
   return text
     .toString()
@@ -24,8 +25,12 @@ const slugify = function (text) {
 
 function generateUniqueFileName(imageUrl, title, id) {
   const fileExtension = path.extname(imageUrl).toLowerCase()
-  const slugifyTitle = slugify(title)
-  const fileName = `${slugifyTitle}_${id}${fileExtension}`
+  console.log('fileExtension:', fileExtension)
+  const shortTitle = title.substring(0, 50)
+  const slugifyTitle = slugify(shortTitle)
+  const fileName = `${slugifyTitle}_${id}${
+    fileExtension ? fileExtension : '.png'
+  }`
   return fileName
 }
 async function downloadImage(url) {

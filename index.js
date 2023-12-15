@@ -26,7 +26,7 @@ const fetchNewsJob = async () => {
     lastFetchTime || 0
   } TO ${currentTime.toISOString()}]`
   // const queryString =
-  //   '(source.id:prNewswire) AND publishedAt:[2020-02-01 TO 2020-05-20]'
+  //   '(source.id:prNewswire) AND publishedAt:[2021-11-01 TO 2021-12-20]'
 
   await fetchAndProcessNews(queryString, 0)
 
