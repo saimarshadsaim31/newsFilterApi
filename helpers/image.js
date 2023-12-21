@@ -76,7 +76,7 @@ async function generateImgUrl(imageUrl, title, id) {
     console.log('Image uploaded to S3:', uploadedImageUrl)
     return uploadedImageUrl
   } catch (error) {
-    console.error('Error:', error.message)
+    console.error('error generating image url for s3', error.message)
   }
 }
 

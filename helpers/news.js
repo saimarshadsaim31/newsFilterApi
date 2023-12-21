@@ -2,7 +2,7 @@ const { SearchApi } = require('financial-news-api')
 const { scraper } = require('./scrapper')
 const { createPost } = require('./strapi')
 const { generateImgUrl } = require('./image')
-const { generateCategoryFromGpt, askGpt, generateImg } = require('./openAi')
+const { askGpt, generateImg } = require('./openAi')
 
 const searchApi = SearchApi(process.env.NEWS_API_KEY)
 
@@ -10,13 +10,13 @@ const fetchAndProcessNews = async (queryString, from) => {
   const query = {
     queryString,
     from,
-    size: 1,
+    size: 5,
   }
   try {
     console.log('Fetching news...')
     const { articles } = await searchApi.getNews(query)
     console.log('total articles fetched:', articles.length)
-    console.log('Fetched news:', articles)
+    // console.log('Fetched news:', articles)
     if (articles && articles.length > 0) {
       console.log('Processing news...')
       for (const article of articles) {
