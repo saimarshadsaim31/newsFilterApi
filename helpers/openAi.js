@@ -48,15 +48,31 @@ const newsCategories = [
 
 const askGpt = async (originalNews) => {
   console.log('asking GPT...')
-  const prompt = `Generate a nuanced variation of the following news content: '${originalNews}'. The variation should be authentic, reflecting the journalistic integrity of the original piece. However, ensure that the wording is distinct enough to prevent a one-to-one correlation with the original text, maintaining a balance between novelty and fidelity. Emphasize the importance of accuracy to prevent the dissemination of misinformation. Aim for a credible and trustworthy tone, aligning with the standards of responsible journalism. Keep in mind the significance of maintaining the original context while introducing subtle differences to create a fresh perspective. Optimize for clarity and coherence, prioritizing accuracy to uphold the reliability of the generated content. Thank you for your attention to detail in producing a variation that respects the authenticity of the news. This is the output format that i want  Output Format:
-  {
-    "title": "Generated Title",
-    "abstract": "Generated Description",
-    "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc. and should explain the news content in great detail so that the reader can get the full context of the news",
-    "categories": ["Generated Category"] // Generated Category should  only be one and should be one of the following predefined categories: ${newsCategories} and it should definitely have a value and should not be null,
-    "image": "Well defined and self explanatory Generated Image prompt for DALLE to generate an image to go along with the article"
-  }"
- `
+//   const prompt = `Generate a nuanced variation of the following news content: '${originalNews}'. The variation should be authentic, reflecting the journalistic integrity of the original piece. However, ensure that the wording is distinct enough to prevent a one-to-one correlation with the original text, maintaining a balance between novelty and fidelity. Emphasize the importance of accuracy to prevent the dissemination of misinformation. Aim for a credible and trustworthy tone, aligning with the standards of responsible journalism. Keep in mind the significance of maintaining the original context while introducing subtle differences to create a fresh perspective. Optimize for clarity and coherence, prioritizing accuracy to uphold the reliability of the generated content. Thank you for your attention to detail in producing a variation that respects the authenticity of the news. This is the output format that i want  Output Format:
+//   {
+//     "title": "Generated Title",
+//     "abstract": "Generated Description",
+//     "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc. and should explain the news content in great detail so that the reader can get the full context of the news and exceeding the length of a standard page.",
+//     "categories": ["Generated Category"] // Generated Category should  only be one and should be one of the following predefined categories: ${newsCategories} and it should definitely have a value and should not be null,
+//     "image": "Well defined and self explanatory Generated Image prompt for DALLE to generate an image to go along with the article"
+//   }"
+//  `
+
+const prompt = `Generate an exceptionally detailed, nuanced, and uniquely expanded version of the following news content, ensuring the highest journalistic standards: '${originalNews}'. This expansion should not only be authentic but significantly longer, extending well beyond the length of a standard page. Prioritize accuracy to counteract the spread of misinformation, maintaining an unwaveringly credible and trustworthy tone in line with responsible journalism.
+
+Retain the essence of the original while introducing a wealth of nuanced variations that offer a distinct and original perspective. Optimize for depth, coherence, and an unparalleled level of detail in the generated content. Employ HTML markup extensively, including tags such as <article>, <h1>, <h2>, <p>, etc., to achieve a sophisticated and well-structured presentation.
+
+Craft a title enriched with powerful SEO-friendly words that captivate and engage readers. Ensure the content is not only informative but strategically incorporates power words for enhanced search engine visibility. The generated content should be a masterpiece of information, uniquely rich with insights, context, and analysis that far exceeds the brevity of the original. Strive for a length that goes significantly beyond a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
+
+Output Format:
+{
+  "title": "SEO-Optimized Generated Title with Power Words",
+  "abstract": "Generated Description with SEO elements",
+  "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc and highly detailed, distinctive HTML format, extending significantly beyond more than the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
+  "categories": ["Generated Category and it should never be empty or null"], // Choose from only these predefined categories: ${newsCategories}
+  "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article"
+}`
+
 
   const response = await openai.chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
