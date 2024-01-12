@@ -58,20 +58,23 @@ const askGpt = async (originalNews) => {
 //   }"
 //  `
 
-const prompt = `Generate an exceptionally detailed, nuanced, and uniquely expanded version of the following news content, ensuring the highest journalistic standards: '${originalNews}'. This expansion should not only be authentic but significantly longer, extending well beyond the length of a standard page. Prioritize accuracy to counteract the spread of misinformation, maintaining an unwaveringly credible and trustworthy tone in line with responsible journalism.
+const prompt = `Generate a comprehensive and meticulously detailed news article, surpassing the brevity of the original while maintaining the highest journalistic standards. The content should be extended well beyond the length of a standard page, ensuring an unparalleled depth of information. Prioritize accuracy to counteract misinformation, presenting a trustworthy tone aligned with responsible journalism.
 
-Retain the essence of the original while introducing a wealth of nuanced variations that offer a distinct and original perspective. Optimize for depth, coherence, and an unparalleled level of detail in the generated content. Employ HTML markup extensively, including tags such as <article>, <h1>, <h2>, <p>, etc., to achieve a sophisticated and well-structured presentation.
+Retain the essence of the original news, introducing nuanced variations to offer a distinct and original perspective. Incorporate HTML markup extensively, using tags such as <article>, <h1>, <h2>, <p>, etc., to achieve a sophisticated and well-structured presentation.
 
-Craft a title enriched with powerful SEO-friendly words that captivate and engage readers. Ensure the content is not only informative but strategically incorporates power words for enhanced search engine visibility. The generated content should be a masterpiece of information, uniquely rich with insights, context, and analysis that far exceeds the brevity of the original. Strive for a length that goes significantly beyond a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
+Craft a title enriched with powerful SEO-friendly words for enhanced search engine visibility. The content should not only be informative but strategically employ power words throughout for reader engagement.
+
+Ensure the generated content is a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
 
 Output Format:
 {
   "title": "SEO-Optimized Generated Title with Power Words",
   "abstract": "Generated Description with SEO elements",
-  "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc and highly detailed, distinctive HTML format, extending significantly beyond more than the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
-  "categories": ["Generated Category and it should never be empty or null"], // Choose from only these predefined categories: ${newsCategories}
+  "content": "Generated Content in a well-structured HTML MARKUP FORMAT, divided into tags like article, h1, h2, p, etc. Highly detailed and distinctive, extending significantly beyond the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
+  "categories": ["Generated Category"], // Choose from only these predefined categories: ${newsCategories}
   "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article"
 }`
+
 
 
   const response = await openai.chat.completions.create({
