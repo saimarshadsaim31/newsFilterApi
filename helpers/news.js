@@ -24,6 +24,7 @@ const fetchAndProcessNews = async (queryString, from) => {
         const { title, sourceUrl, id, publishedAt } = article
         const markup = await scraper(sourceUrl)
         const data = await askGpt(markup)
+        // console.log({title: data.title, description:data.content})
         const generatedImageUrl = await generateImg(data?.imageDescription)
         const s3ImageUrl = await generateImgUrl(generatedImageUrl, title, id)
 
