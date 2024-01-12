@@ -71,7 +71,7 @@ Output Format:
   "title": "SEO-Optimized Generated Title with Power Words",
   "abstract": "Generated Description with SEO elements",
   "content": "Generated Content in a well-structured HTML MARKUP FORMAT, divided into tags like article, h1, h2, p, etc. Highly detailed and distinctive, extending significantly beyond the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
-  "categories": ["Generated Category"], // Choose from only these predefined categories: ${newsCategories}
+  "categories": ["Generated Category"], // Choose from these predefined categories: ${newsCategories} and if you don't find a category in these categories then you can write your own relevant category but don't let it empty
   "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article"
 }`
 
