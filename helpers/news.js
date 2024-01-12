@@ -11,46 +11,58 @@ const fetchAndProcessNews = async (queryString, from) => {
     queryString,
     from,
     size: 5,
-  }
+  };
   try {
-    console.log('Fetching news...')
-    const { articles } = await searchApi.getNews(query)
-    console.log('total articles fetched:', articles.length)
-    // console.log('Fetched news:', articles)
+    console.log('Fetching news...');
+    const { articles } = await searchApi.getNews(query);
+    console.log('total articles fetched:', articles.length);
+
     if (articles && articles.length > 0) {
-      console.log('Processing news...')
+      console.log('Processing news...');
       for (const article of articles) {
-        console.log('Processing article with name: ', article.title)
-        const { title, sourceUrl, id, publishedAt } = article
-        const markup = await scraper(sourceUrl)
-        const data = await askGpt(markup)
-        // console.log({title: data.title, description:data.content})
-        const generatedImageUrl = await generateImg(data?.imageDescription)
-        const s3ImageUrl = await generateImgUrl(generatedImageUrl, title, id)
+        console.log('Processing article with name: ', article.title);
+        const { title, sourceUrl, id, publishedAt } = article;
+        const markup = await scraper(sourceUrl);
+        const data = await askGpt(markup);
+        const generatedImageUrl = await generateImg(data?.imageDescription);
+        const s3ImageUrl = await generateImgUrl(generatedImageUrl, title, id);
 
-        const newTitle = data?.title
-        const newMarkup = data?.content
-        const description = data?.abstract
-        const categories = data?.categories
+        const newTitle = data?.title;
+        const newMarkup = data?.content;
+        const description = data?.abstract;
+        const categories = data?.categories;
 
-        console.log('pushing article to strapi')
-        await createPost(
-          newTitle,
-          description,
-          newMarkup,
-          s3ImageUrl,
-          publishedAt,
-          categories
-        )
-        console.log('article processsing completed...')
+        // Check if any required field is null or undefined
+        if (
+          newTitle !== null && newTitle !== undefined &&
+          description !== null && description !== undefined &&
+          newMarkup !== null && newMarkup !== undefined &&
+          s3ImageUrl !== null && s3ImageUrl !== undefined &&
+          publishedAt !== null && publishedAt !== undefined &&
+          categories !== null && categories !== undefined
+        ) {
+          console.log('Pushing article to strapi');
+          await createPost(
+            newTitle,
+            description,
+            newMarkup,
+            s3ImageUrl,
+            publishedAt,
+            categories
+          );
+          console.log('Article processing completed...');
+        } else {
+          console.log('Skipping article due to missing required fields');
+        }
       }
     } else {
-      console.log('No articles found')
+      console.log('No articles found');
     }
   } catch (error) {
-    console.error('Error fetching news:', error.message)
+    console.error('Error fetching news:', error.message);
   }
-}
+};
+
 
 module.exports = {
   fetchAndProcessNews,
