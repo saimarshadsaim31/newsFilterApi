@@ -50,6 +50,7 @@ const fetchAndProcessNews = async (queryString, from) => {
             publishedAt,
             categories
           );
+          // console.log({title:newTitle, content:newMarkup, categorY:categories})
           console.log('Article processing completed...');
         } else {
           console.log('Skipping article due to missing required fields');
