@@ -66,6 +66,8 @@ Craft a title enriched with powerful SEO-friendly words for enhanced search engi
 
 Ensure the generated content is a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
 
+Additionally, include both internal and external post relevant links within the content. Internal links should connect relevant sections of the article, enhancing the reader's navigation. External links should lead to reputable sources or related articles, providing additional context.
+
 Output Format:
 {
   "title": "SEO-Optimized Generated Title with Power Words",
