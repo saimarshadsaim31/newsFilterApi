@@ -55,28 +55,56 @@ const askGpt = async (originalNews) => {
 //     "content": "Generated Content should always and i repeat always be in a well structured HTML MARKUP FORMAT devided into tags like article, h1, h2, p etc. and should explain the news content in great detail so that the reader can get the full context of the news and exceeding the length of a standard page.",
 //     "categories": ["Generated Category"] // Generated Category should  only be one and should be one of the following predefined categories: ${newsCategories} and it should definitely have a value and should not be null,
 //     "image": "Well defined and self explanatory Generated Image prompt for DALLE to generate an image to go along with the article"
-//   }"
-//  `
+//   }`
 
-const prompt = `Generate a comprehensive and meticulously detailed news article, surpassing the brevity of the original while maintaining the highest journalistic standards. The content should be extended well beyond the length of a standard page, ensuring an unparalleled depth of information. Prioritize accuracy to counteract misinformation, presenting a trustworthy tone aligned with responsible journalism.
+// const prompt = `Generate a comprehensive and meticulously detailed news article, surpassing the brevity of the original while maintaining the highest journalistic standards. The content should be extended well beyond the length of a standard page, ensuring an unparalleled depth of information. Prioritize accuracy to counteract misinformation, presenting a trustworthy tone aligned with responsible journalism.
 
-Retain the essence of the original news, introducing nuanced variations to offer a distinct and original perspective. Incorporate HTML markup extensively, using tags such as <article>, <h1>, <h2>, <p>, etc., to achieve a sophisticated and well-structured presentation.
+// Retain the essence of the original news, introducing nuanced variations to offer a distinct and original perspective. Incorporate HTML markup extensively, using tags such as <article>, <h1>, <h2>, <p>, etc., to achieve a sophisticated and well-structured presentation.
 
-Craft a title enriched with powerful SEO-friendly words for enhanced search engine visibility. The content should not only be informative but strategically employ power words throughout for reader engagement.
+// Craft a title enriched with powerful SEO-friendly words for enhanced search engine visibility. The content should not only be informative but strategically employ power words throughout for reader engagement.
 
-Ensure the generated content is a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
+// Create a compelling and SEO-friendly title enriched with power words for enhanced search engine visibility. The content should not only be informative but strategically employ power words throughout for reader engagement.
 
-Additionally, include both must have internal and external post relevant links within the content. Internal links should connect relevant sections of the article, enhancing the reader's navigation. External links should lead to reputable sources or related articles, providing additional context and don't attach any contact information like phone,email and location etc in content.
+// Craft a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of a standard page, allowing readers to delve deep into a comprehensive understanding of the news.
+
+// Ensure the generated content is a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of a standard page, enabling readers to delve deep into a comprehensive understanding of the news.
+
+// Please don't includes any contact information such as phone numbers, emails, or locations etc in the content. Utilize commonly used HTML tags and avoid style tags like <blockquote> etc. Refrain from using parentheses () in the content.
+
+// Additionally, include both must have internal and external post relevant links within the content. Internal links should connect relevant sections of the article, enhancing the reader's navigation. External links should lead to reputable sources or related articles, providing additional context and don't attach any contact information like phone,email and location etc in content.
+
+// Output Format:
+// {
+//   "title": "SEO-Optimized Generated Title with Power Words",
+//   "abstract": "Generated Description with SEO elements",
+//   "content": "Generated Content in a well-structured HTML MARKUP FORMAT, divided into tags like article, h1, h2, p, etc. Highly detailed and distinctive, extending significantly beyond the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
+//   "categories": ["Generated Category"], // Generated Category should  only be one and should be one of the following predefined categories: ${newsCategories} and it should definitely have a value and should not be null.,
+//   "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article"
+// }`
+
+
+
+const prompt = `Generate an incredibly comprehensive and meticulously detailed news article, surpassing the brevity of the original while upholding the highest journalistic standards. Extend the content well beyond the length of two standard pages, ensuring an unparalleled depth of information. Prioritize accuracy to counteract misinformation, presenting a trustworthy tone aligned with responsible journalism.
+
+Retain the essence of the original news, introducing nuanced variations to offer a distinct and original perspective. Incorporate HTML markup extensively, using tags such as <article>, <h1>, <h2>, <p>, <a> etc., to achieve a sophisticated and well-structured presentation.
+
+Create a compelling and SEO-friendly title enriched with power words to ensure enhanced search engine visibility. The content should not only be informative but should strategically employ power words throughout for optimal reader engagement.
+
+Generate a content masterpiece, uniquely rich with insights, context, and analysis. The length of the generated content must substantially exceed that of two standard pages, enabling readers to delve deep into a comprehensive understanding of the news.
+
+Ensure the generated content is a masterpiece of information, uniquely rich with insights, context, and analysis. The length should significantly exceed that of two standard pages, enabling readers to thoroughly explore and understand the news. Avoid including any contact-type information like phone numbers, email, and location in the generated content.
+
+Additionally, the content must have both internal and external relevant, correct, and accessible links within. Internal links should seamlessly connect relevant sections of the article, enhancing the reader's navigation. External links should lead to reputable sources or related articles, providing additional context.
 
 Output Format:
 {
   "title": "SEO-Optimized Generated Title with Power Words",
   "abstract": "Generated Description with SEO elements",
-  "content": "Generated Content in a well-structured HTML MARKUP FORMAT, divided into tags like article, h1, h2, p, etc. Highly detailed and distinctive, extending significantly beyond the length of a standard page. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
-  "categories": ["Generated Category"], // Choose from only these predefined categories: ${newsCategories}
-  "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article"
-}`
-
+  "content": "Generated Content in a well-structured HTML MARKUP FORMAT, divided into tags like article, h1, h2, p, a, etc. Highly detailed and distinctive, extending significantly beyond the length of two standard pages. Strategically incorporate SEO-friendly power words throughout the content to boost online visibility and engagement.",
+  "categories": ["Generated Category"], // Choose from only these predefined categories: ${newsCategories}. The category should have a value and should not be null.
+  "image": "Generated Image prompt for DALLE to complement this exceptionally extensive article",
+  "seo_tags": "Generated relevant SEO tags from the generated content prompt for DALLE to complement this exceptional article and should not be null"
+}`;
 
 
 

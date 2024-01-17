@@ -33,7 +33,8 @@ async function createPost(
   markup,
   s3ImageUrl,
   publishedAt,
-  categories
+  categories,
+  seo_tags
 ) {
   const layoutCategory = getRandomCategory()
   try {
@@ -49,6 +50,7 @@ async function createPost(
           imgUrl: s3ImageUrl,
           newsDate: publishedAt,
           categories: categories,
+          seoTags: seo_tags,
           layoutCategory: layoutCategory,
         },
       }),
